@@ -1,0 +1,7 @@
+run = "./vendor/bin/sail up"
+
+[nix]
+
+[nix.channel]
+channel = "stable-22_05"
+
