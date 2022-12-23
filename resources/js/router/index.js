@@ -17,30 +17,37 @@ const Dashboard = () => import('@/components/Dashboard.vue')
 
 const routes = [
     {
-        name: "home",
-        path: "/home",
-        component: Home,
+        path: "/",
+        component: SetLayout,
         meta: {
             middleware: "guest"
-        }
-    },
-    {
-        name: "login",
-        path: "/login",
-        component: Login,
-        meta: {
-            middleware: "guest",
-            title: `Login`
-        }
-    },
-    {
-        name: "register",
-        path: "/register",
-        component: Register,
-        meta: {
-            middleware: "guest",
-            title: `Register`
-        }
+        },
+        children: [
+            {
+                name: "home",
+                path: "/home",
+                component: Home,
+                meta: {
+                    title: `Home`
+                }
+            },
+            {
+                name: "login",
+                path: "/login",
+                component: Login,
+                meta: {
+                    title: `Login`
+                }
+            },
+            {
+                name: "register",
+                path: "/register",
+                component: Register,
+                meta: {
+                    title: `Register`
+                }
+            },
+        ]
     },
     {
         path: "/",

@@ -36,7 +36,7 @@
                                 </button>
                             </div>
                             <div class="col-12 text-center">
-                                <label>Already have an account? <router-link :to="{name:'login'}">Login Now!</router-link></label>
+                                <label>Already have an account? <a name="login" @click="loading">Login Now!</a></label>
                             </div>
                         </form>
                     </div>
@@ -68,8 +68,10 @@ export default {
         }),
         async register(){
             this.processing = true
+            this.emitter.emit('loading', true)
             await axios.get('/sanctum/csrf-cookie')
             await axios.post('/register',this.user).then(response=>{
+                this.emitter.emit('loading', false)
                 this.validationErrors = {}
                 this.signIn()
             }).catch(({response})=>{
@@ -81,6 +83,17 @@ export default {
                 }
             }).finally(()=>{
                 this.processing = false
+            })
+        },
+        loading(e) {
+            this.emitter.emit('loading', true)
+            this.$nextTick(() => {
+                setTimeout(function () {
+                    this.emitter.emit('loading', false)
+                    this.$nextTick(() => {
+                        this.$router.push({name:e.target.name})
+                    })
+                }.bind(this), 2000)
             })
         }
     }
